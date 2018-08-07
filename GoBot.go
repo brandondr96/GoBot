@@ -1,3 +1,10 @@
+/*
+This bot was inspired by the GroupMe-bot created by adammohammed.
+It additionally contains an altered version of TextGenerate to allow
+it to respond to replies in interesting ways. This basic bot can be 
+extended to respond to many prompts in a manner similar to an AI.
+*/
+
 package main
 
 import (
@@ -14,8 +21,8 @@ import (
 
 const FILE_NAME1 string = "default.txt"
 const RESP_LENGTH int = 3
-const BOT_ID = "842c1312e40e8633070f94f843"
-const GROUP_ID = "42542839"
+const BOT_ID = ""
+const GROUP_ID = ""
 
 // Structure for bot
 type GroupMeBot struct {
