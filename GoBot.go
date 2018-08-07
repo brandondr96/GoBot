@@ -252,13 +252,13 @@ func main() {
 	bot := GroupMeBot{ID: BOT_ID, GroupID: GROUP_ID}
 
 	// Determine usable IP/port automatically
-    conn, err := net.Dial("udp", "8.8.8.8:80")
-    check(err)
-    defer conn.Close()
-    localAddr := conn.LocalAddr().String()
-    idx := strings.LastIndex(localAddr, ":")
-    pip := localAddr[0:idx]
-    port := os.Getenv("PORT")
+	conn, err := net.Dial("udp", "8.8.8.8:80")
+	check(err)
+	defer conn.Close()
+	localAddr := conn.LocalAddr().String()
+	idx := strings.LastIndex(localAddr, ":")
+	pip := localAddr[0:idx]
+	port := os.Getenv("PORT")
 
 	// Create server to listen for posts in the group
 	fmt.Println("Listening on: "+pip+":"+port)
