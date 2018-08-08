@@ -47,13 +47,13 @@ type InboundMessage struct {
 	Attachments  []map[string]interface{} `json:"attachments"`
 }
 
-//Structure to hold the words
+// Structure to hold the words
 type data struct {
 	word string
 	nextWords []string
 }
 
-//Get next word from structure
+// Get next word from structure
 func (dataS data) next(w []data) string {
 	l := len(dataS.nextWords)
 	if l == 0 {
@@ -64,20 +64,20 @@ func (dataS data) next(w []data) string {
 	return dataS.nextWords[toPick]
 }
 
-//Add word to repository
+// Add word to repository
 func (dataS data) addWord(toAdd string) data{
 	dataS.nextWords = append(dataS.nextWords, toAdd)
 	return dataS
 }
 
-//Default error checker
+// Default error checker
 func check(e error) {
     if e != nil {
         panic(e)
     }
 }
 
-//Initialize conversational data from file
+// Initialize conversational data from file
 func initData(w []data, filename string) []data{
 	dat, err := ioutil.ReadFile(filename)
     check(err)
@@ -87,14 +87,14 @@ func initData(w []data, filename string) []data{
     return ret
 }
 
-//Add message sender's name to response
+// Add message sender's name to response
 func initName(w []data, name string) []data{
 	toParse := name+", you"
 	ret := learnData(toParse,w)
 	return ret
 } 
 
-//Parse string to add to data
+// Parse string to add to data
 func learnData(toParse string, w []data) []data{
 	allWords := strings.Fields(toParse)
 	for i, aW := range allWords {
@@ -104,16 +104,16 @@ func learnData(toParse string, w []data) []data{
 		bmark := false
 		for _, d := range w {
 			if d.word == aW {
-				current = d //Since it takes latest appended entry, stale entries ignored
+				current = d // Since it takes latest appended entry, stale entries ignored
 				bmark = true
 			}
 		}
-		//Add word to wordlist if it doesn't exist
+		// Add word to wordlist if it doesn't exist
 		if !bmark {
 			current = data{word: aW, nextWords: t}
 			w = append(w, current)
 		}
-		//Set the next word for data
+		// Set the next word for data
 		if i<len(allWords)-1 {
 			current = current.addWord(allWords[i+1])
 			w = append(w, current)
@@ -122,7 +122,7 @@ func learnData(toParse string, w []data) []data{
 	return w
 }
 
-//Structure the response based on data
+// Structure the response based on data
 func respond(w []data) string{
 	response := ""
 	var t []string
@@ -196,7 +196,7 @@ func (b *GroupMeBot) SendMessage(outMessage string) (*http.Response, error) {
 func (b *GroupMeBot) HandleMessage(msg InboundMessage) {
 	resp := ""
 	////////////////////////////////////////////////
-	//Insert criteria for response in this region
+	// Insert criteria for response in this region
 	// 
 	// Example of simple response:
 	if(strings.Contains(msg.Text,"Hello")){
