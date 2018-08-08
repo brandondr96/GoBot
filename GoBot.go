@@ -15,8 +15,8 @@ import (
 	"strings"
 	"os"
 	"net"
-    "math/rand"
-    "time"
+    	"math/rand"
+    	"time"
 )
 
 const FILE_NAME1 string = "default.txt"
@@ -72,19 +72,19 @@ func (dataS data) addWord(toAdd string) data{
 
 // Default error checker
 func check(e error) {
-    if e != nil {
-        panic(e)
-    }
+	if e != nil {
+		panic(e)
+	}
 }
 
 // Initialize conversational data from file
 func initData(w []data, filename string) []data{
 	dat, err := ioutil.ReadFile(filename)
-    check(err)
-    toParse := string(dat)
-    toParse = strings.Replace(toParse,"---","",-1)
-    ret := learnData(toParse,w)
-    return ret
+	check(err)
+	toParse := string(dat)
+	toParse = strings.Replace(toParse,"---","",-1)
+	ret := learnData(toParse,w)
+	return ret
 }
 
 // Add message sender's name to response
