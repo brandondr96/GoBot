@@ -15,11 +15,12 @@ import (
 	"strings"
 	"os"
 	"net"
-    	"math/rand"
-    	"time"
+	"math/rand"
+	"time"
 )
 
 const FILE_NAME1 string = "default.txt"
+const FILE_NAME2 string = "pastinput.txt"
 const RESP_LENGTH int = 3
 const BOT_ID = ""
 const GROUP_ID = ""
@@ -192,9 +193,22 @@ func (b *GroupMeBot) SendMessage(outMessage string) (*http.Response, error) {
 	return http.Post("https://api.groupme.com/v3/bots/post", "application/json", strings.NewReader(j_tosend))
 }
 
+// Adds data to file of past input
+func AddToPast(toAdd string) {
+	file, err := os.OpenFile(FILE_NAME2, os.O_APPEND|os.O_WRONLY, 0600)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+	if _, err = file.WriteString(toAdd); err != nil {
+		panic(err)
+	}
+}
+
 // Determines how to respond based on message 
 func (b *GroupMeBot) HandleMessage(msg InboundMessage) {
 	resp := ""
+
 	////////////////////////////////////////////////
 	// Insert criteria for response in this region
 	// 
@@ -209,11 +223,15 @@ func (b *GroupMeBot) HandleMessage(msg InboundMessage) {
 		temp := data{word: "", nextWords: t}
 		wordList[0] = temp
 		wordList = initData(wordList,FILE_NAME1)
+		wordList = initData(wordList,FILE_NAME2)
 		wordList = initName(wordList,msg.Name)
 		resp = fmt.Sprintf("%v", respond(wordList))
 	}
+	// Example of remembering user input:
+	AddToPast(msg.Text+" \n")
 	//
 	////////////////////////////////////////////////
+
 	if len(resp) > 0 {
 		fmt.Println("Sending message: "+resp)
 		_, err := b.SendMessage(resp)
