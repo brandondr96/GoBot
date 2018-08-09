@@ -19,8 +19,8 @@ import (
 	"time"
 )
 
-const FILE_NAME1 string = "default.txt"
-const FILE_NAME2 string = "pastinput.txt"
+const FILE_NAME1 string = "TextData/default.txt"
+const FILE_NAME2 string = "TextData/pastinput.txt"
 const RESP_LENGTH int = 3
 const BOT_ID = ""
 const GROUP_ID = ""
