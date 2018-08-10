@@ -205,6 +205,22 @@ func AddToPast(toAdd string) {
 	}
 }
 
+// Clear past input from file
+func ClearPast() {
+    var err = os.Remove(FILE_NAME2)
+    if err != nil {
+    	panic(err)
+    }
+    var _, err = os.Stat(FILE_NAME2)
+    if os.IsNotExist(err) {
+        var file, err = os.Create(FILE_NAME2)
+        if err != nil {
+        	panic(err)
+        }
+        defer file.Close()
+    }
+}
+
 // Determines how to respond based on message 
 func (b *GroupMeBot) HandleMessage(msg InboundMessage) {
 	resp := ""
@@ -229,6 +245,10 @@ func (b *GroupMeBot) HandleMessage(msg InboundMessage) {
 	}
 	// Example of remembering user input:
 	AddToPast(msg.Text+" \n")
+	// Example of forgetting past user input:
+	if(strings.Contains(msg.Text,"Forget everything")){
+		ClearPast()
+	}
 	//
 	////////////////////////////////////////////////
 
